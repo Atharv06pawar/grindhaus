@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # dependencies
 node_modules/
 **/node_modules/
@@ -11,4 +12,11 @@ dist/
 .env.local
 
 # logs
+=======
+node_modules
+**/node_modules
+build
+dist
+.env
+>>>>>>> abead2745564baba2a2b9bd8ef152bf84261c39c
 *.log
