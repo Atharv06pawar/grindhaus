@@ -1,14 +1,51 @@
-// Macronutrients.js
 import React from "react";
 import styled from "styled-components";
-import "@fontsource/passero-one"; // ✅ Add this import
+import { motion } from "framer-motion";
+import "@fontsource/passero-one";
 
 import protein from "../assets/nutrition/protein.png";
 import carbs from "../assets/nutrition/carbs.png";
 import fats from "../assets/nutrition/fats.png";
 import fiber from "../assets/nutrition/fiber.png";
 
-const Section = styled.section`
+/* ================= SMOOTH DIRECT SCROLL ANIMATION ================= */
+
+const sectionAnim = {
+  hidden: { opacity: 0, y: 20 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.45,
+      ease: "easeOut"
+    }
+  }
+};
+
+const gridAnim = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.08
+    }
+  }
+};
+
+const cardAnim = {
+  hidden: { opacity: 0, y: 25 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.45,
+      ease: "easeOut"
+    }
+  }
+};
+
+/* ================= STYLED ================= */
+
+const Section = styled(motion.section)`
   background: #111;
   padding: 5px 2rem 2rem 2rem;
   display: flex;
@@ -20,7 +57,7 @@ const Title = styled.h2`
   background: black;
   width: 100%;
   color: white;
-  font-family: "Passero One", cursive; /* ✅ Updated font */
+  font-family: "Passero One", cursive;
   font-size: 2.5rem;
   padding: 1.5rem 2rem;
   margin-bottom: 2rem;
@@ -28,7 +65,7 @@ const Title = styled.h2`
   z-index: 1;
 `;
 
-const Grid = styled.div`
+const Grid = styled(motion.div)`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 0.5rem;
@@ -40,7 +77,7 @@ const Grid = styled.div`
   }
 `;
 
-const Card = styled.div`
+const Card = styled(motion.div)`
   background: #222;
   overflow: hidden;
   width: 100%;
@@ -66,18 +103,10 @@ const Card = styled.div`
   @media (min-width: 769px) {
     border-radius: 100px;
 
-    &:nth-child(1) {
-      border-bottom-right-radius: 0;
-    }
-    &:nth-child(2) {
-      border-bottom-left-radius: 0;
-    }
-    &:nth-child(3) {
-      border-top-right-radius: 0;
-    }
-    &:nth-child(4) {
-      border-top-left-radius: 0;
-    }
+    &:nth-child(1) { border-bottom-right-radius: 0; }
+    &:nth-child(2) { border-bottom-left-radius: 0; }
+    &:nth-child(3) { border-top-right-radius: 0; }
+    &:nth-child(4) { border-top-left-radius: 0; }
   }
 
   @media (max-width: 768px) {
@@ -85,20 +114,14 @@ const Card = styled.div`
     min-height: 160px;
     border-radius: 30px;
 
-    &:nth-child(1) {
-      border-bottom-right-radius: 0;
-    }
-    &:nth-child(2) {
-      border-bottom-left-radius: 0;
-    }
-    &:nth-child(3) {
-      border-top-right-radius: 0;
-    }
-    &:nth-child(4) {
-      border-top-left-radius: 0;
-    }
+    &:nth-child(1) { border-bottom-right-radius: 0; }
+    &:nth-child(2) { border-bottom-left-radius: 0; }
+    &:nth-child(3) { border-top-right-radius: 0; }
+    &:nth-child(4) { border-top-left-radius: 0; }
   }
 `;
+
+/* ================= COMPONENT ================= */
 
 const Macronutrients = () => {
   const macros = [
@@ -109,11 +132,17 @@ const Macronutrients = () => {
   ];
 
   return (
-    <Section>
+    <Section
+      variants={sectionAnim}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, margin: "-10%" }}
+    >
       <Title>Macronutrients Breakdown</Title>
-      <Grid>
+
+      <Grid variants={gridAnim}>
         {macros.map((macro, i) => (
-          <Card key={i}>
+          <Card key={i} variants={cardAnim}>
             <img src={macro.img} alt={macro.name} />
           </Card>
         ))}

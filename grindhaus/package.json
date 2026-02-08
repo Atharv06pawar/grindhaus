@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fontsource/bricolage-grotesque": "^5.2.10",
     "@fontsource/passero-one": "^5.2.6",
+    "@studio-freight/lenis": "^1.0.42",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.6.4",
     "@testing-library/react": "^16.3.0",

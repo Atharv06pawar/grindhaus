@@ -1,206 +1,256 @@
-// Navbar.js
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import styled, { keyframes } from 'styled-components';
-import logo from '../assets/nav/logo.png';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import styled, { keyframes } from "styled-components";
+import logo from "../assets/nav/logo.png";
 
-// Gradient animation
+/* Gradient animation */
 const gradientShift = keyframes`
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 `;
 
+/* ===== NAV ===== */
 const Nav = styled.nav`
-  position: sticky;
-  top: 0;
+  position: fixed;
+  top: 0px;                 /* FLOAT distance from top */
+  left: 50%;
+  transform: translateX(-50%);
+
   z-index: 1100;
-  display: flex;
+
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
-  justify-content: space-between;
-  background: #111;
-  padding: 0.5rem 2rem;
-  font-family: 'Bangers', cursive;
-  box-shadow: 0 2px 12px rgba(245, 241, 241, 0.25);
+
+  width: calc(100% - 40px);  /* keeps margin left + right */
+  max-width: 1400px;
+
+  padding: 0.9rem 1.5rem;
+
+  font-family: "Bricolage Grotesque", sans-serif;
+
+
 `;
 
-const LeftGroup = styled.div`
+/* ===== GLASS TAB BASE ===== */
+const GlassTab = styled.div`
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  background: rgba(255, 255, 255, 0.06);
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+
+  border-radius: 18px;
+
+  padding: 10px 18px;
+
+  box-shadow:
+    inset 0 1px 1px rgba(255,255,255,0.15),
+    0 8px 25px rgba(0,0,0,0.6);
+
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: rgba(255,255,255,0.09);
+    transform: translateY(-2px);
+  }
+`;
+
+/* LEFT */
+const Left = styled(GlassTab)`
   display: flex;
   align-items: center;
-  gap: 2rem;
+  justify-self: start;
 `;
 
 const Logo = styled.img`
-  height: 40px;
-  width: auto;
+  height: 55px;
   cursor: pointer;
 `;
 
-const Hamburger = styled.button`
-  display: none;
-  flex-direction: column;
-  cursor: pointer;
-  background: transparent;
-  border: 0;
-  padding: 4px;
-  margin-left: 12px;
-
-  span {
-    background: white;
-    height: 3px;
-    width: 26px;
-    margin: 4px 0;
-    border-radius: 2px;
-    display: block;
-  }
-
-  @media (max-width: 768px) {
-    display: flex;
-  }
-`;
-
-const NavLinks = styled.ul`
+/* CENTER */
+const CenterLinks = styled(GlassTab)`
   display: flex;
-  align-items: center;
-  list-style: none;
-  gap: 1.5rem;
-  margin: 0;
-  padding: 0;
+  justify-content: center;
+  justify-self: center;
+  gap: 2rem;
+  padding: 20px 25px 20px 25px;
+  border-radius: 10px;
 
   a {
     color: white;
     text-decoration: none;
-    transition: color 0.3s ease;
+    font-size: 1.05rem;
+
     &:hover {
       color: #ff003c;
     }
   }
 
-  /* Mobile slide-out */
-  @media (max-width: 768px) {
-    position: absolute;
-    top: 60px;
-    right: 0;
-    flex-direction: column;
-    background: #111;
-    width: 240px;
-    padding: 1rem;
-    gap: 1rem;
-    transition: transform 0.3s ease;
-    z-index: 1101; /* above overlay */
-    border-left: 1px solid rgba(255,255,255,0.08);
-    box-shadow: -6px 0 18px rgba(0,0,0,0.5);
-
-    transform: ${({ open }) => (open ? 'translateX(0)' : 'translateX(100%)')};
-  }
-`;
-
-/* Base button style */
-const GlowButtonBase = styled(Link)`
-  color: white;
-  padding: 0.6rem 1.2rem;
-  border-radius: 6px;
-  text-decoration: none;
-  font-weight: bold;
-  background: linear-gradient(270deg, #ff003c, #8a2be2);
-  background-size: 400% 400%;
-  animation: ${gradientShift} 4s ease infinite;
-  box-shadow: 0 0 10px #ff003c, 0 0 20px #8a2be2;
-  transition: all 0.3s ease;
-  white-space: nowrap;
-
-  &:hover {
-    animation: none;
-    background: #ff003c;
-    box-shadow: 0 0 20px #ff003c, 0 0 40px #ff003c;
-  }
-`;
-
-/* Desktop-only button (right side) */
-const GlowButtonDesktop = styled(GlowButtonBase)`
   @media (max-width: 768px) {
     display: none;
   }
 `;
 
-/* Mobile-only button (inside the hamburger menu) */
-const GlowButtonMobile = styled(GlowButtonBase)`
-  display: none;
+/* RIGHT */
+const Right = styled.div`
+  display: flex;
+  align-items: center;
+  justify-self: end;
+  gap: 12px;
+`;
+
+/* Glow Button */
+const GlowButton = styled(Link)`
+  color: white;
+  padding: 0.6rem 1.3rem;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: bold;
+
+  background: linear-gradient(270deg, #ff003c, #8a2be2);
+  background-size: 400% 400%;
+  animation: ${gradientShift} 4s ease infinite;
+
+  box-shadow: 0 0 10px #ff003c, 0 0 20px #8a2be2;
+
+  &:hover {
+    animation: none;
+    background: #ff003c;
+  }
+
   @media (max-width: 768px) {
-    display: block;
-    width: 100%;
-    text-align: center;
+    display: none;
   }
 `;
 
-/* Full-screen overlay (clicking it closes menu) */
+/* Hamburger */
+const Hamburger = styled.button`
+  display: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+
+  span {
+    display: block;
+    width: 26px;
+    height: 3px;
+    background: white;
+    margin: 5px 0;
+    border-radius: 2px;
+  }
+
+  @media (max-width: 768px) {
+    display: block;
+  }
+`;
+
+/* ===== Mobile Overlay ===== */
 const Overlay = styled.div`
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.55);
-  backdrop-filter: blur(2px);
-  z-index: 1100; /* below Nav but above page content */
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(6px);
+  z-index: 1200;
 `;
 
+/* ===== Mobile Menu ===== */
+const MobileMenu = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 85%;
+  max-width: 320px;
+
+  background: rgba(20,20,20,0.95);
+  border-radius: 20px;
+  padding: 2rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  text-align: center;
+
+  box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+  z-index: 1300;
+`;
+
+const MobileLink = styled(Link)`
+  color: white;
+  text-decoration: none;
+  font-size: 1.3rem;
+
+  &:hover {
+    color: #ff003c;
+  }
+`;
+
+const MobileLogin = styled(GlowButton)`
+  display: block;
+`;
+
+/* ===== COMPONENT ===== */
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Lock body scroll when menu is open and add Escape handler
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : 'auto';
+    document.body.style.overflow = menuOpen ? "hidden" : "auto";
 
-    const onKey = (e) => {
-      if (e.key === 'Escape' && menuOpen) setMenuOpen(false);
+    const esc = (e) => {
+      if (e.key === "Escape") setMenuOpen(false);
     };
-    window.addEventListener('keydown', onKey);
+
+    window.addEventListener("keydown", esc);
+
     return () => {
-      window.removeEventListener('keydown', onKey);
-      document.body.style.overflow = 'auto';
+      window.removeEventListener("keydown", esc);
+      document.body.style.overflow = "auto";
     };
   }, [menuOpen]);
 
-  // Close menu when clicking overlay
-  const handleOverlayClick = () => setMenuOpen(false);
-
   return (
     <>
-      {/* Render overlay only when menu is open; clicking it closes the menu */}
-      {menuOpen && <Overlay onClick={handleOverlayClick} />}
+      {menuOpen && <Overlay onClick={() => setMenuOpen(false)} />}
+
+      {menuOpen && (
+        <MobileMenu onClick={(e) => e.stopPropagation()}>
+          <MobileLink to="/workout" onClick={() => setMenuOpen(false)}>Workouts</MobileLink>
+          <MobileLink to="/technique" onClick={() => setMenuOpen(false)}>Technique</MobileLink>
+          <MobileLink to="/nutrition" onClick={() => setMenuOpen(false)}>Nutrition</MobileLink>
+          <MobileLink to="/community" onClick={() => setMenuOpen(false)}>Community</MobileLink>
+          <MobileLogin to="/login" onClick={() => setMenuOpen(false)}>
+            LogIn / SignUp
+          </MobileLogin>
+        </MobileMenu>
+      )}
 
       <Nav>
-        <LeftGroup>
-          <Link to="/" onClick={() => setMenuOpen(false)}>
-            <Logo src={logo} alt="GrindHaus Logo" />
+        <Left>
+          <Link to="/">
+            <Logo src={logo} alt="GrindHaus" />
           </Link>
+        </Left>
 
-          <NavLinks open={menuOpen} onClick={(e) => e.stopPropagation()}>
-            <li><Link to="/workout" onClick={() => setMenuOpen(false)}>Workouts</Link></li>
-            <li><Link to="/technique" onClick={() => setMenuOpen(false)}>Technique</Link></li>
-            <li><Link to="/nutrition" onClick={() => setMenuOpen(false)}>Nutrition</Link></li>
-            <li><Link to="/community" onClick={() => setMenuOpen(false)}>Community</Link></li>
+        <CenterLinks>
+          <Link to="/workout">Workouts</Link>
+          <Link to="/technique">Technique</Link>
+          <Link to="/nutrition">Nutrition</Link>
+          <Link to="/community">Community</Link>
+        </CenterLinks>
 
-            {/* Mobile-only login button inside the slide-out */}
-            <li>
-              <GlowButtonMobile to="/login" onClick={() => setMenuOpen(false)}>LogIn/SignUp</GlowButtonMobile>
-            </li>
-          </NavLinks>
-        </LeftGroup>
+        <Right>
+          <GlowButton to="/login">LogIn / SignUp</GlowButton>
 
-        {/* Right: Desktop-only login button */}
-        <GlowButtonDesktop to="/login">LogIn/SignUp</GlowButtonDesktop>
-
-        {/* Hamburger (right aligned) */}
-        <Hamburger
-          onClick={(e) => {
-            e.stopPropagation(); // don't let the page-level click handlers catch this
-            setMenuOpen((s) => !s);
-          }}
-          aria-label="Toggle menu"
-        >
-          <span />
-          <span />
-          <span />
-        </Hamburger>
+          <Hamburger onClick={() => setMenuOpen(true)}>
+            <span />
+            <span />
+            <span />
+          </Hamburger>
+        </Right>
       </Nav>
     </>
   );

@@ -1,11 +1,65 @@
-// AIPlanning.js
 import React from "react";
 import styled from "styled-components";
-import backgroundImg from "../assets/workouts/aiplan.png"; // replace with your bg image path
+import backgroundImg from "../assets/workouts/aiplan.png";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
-// Section background
-const Section = styled.section`
+/* ================= ANIMATION VARIANTS ================= */
+
+const sectionAnim = {
+  hidden: { opacity: 0, scale: 1.05 },
+  show: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 1,
+      ease: [0.16, 1, 0.3, 1]
+    }
+  }
+};
+
+const titleAnim = {
+  hidden: { opacity: 0, y: 60, scale: 0.95 },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.9,
+      delay: 0.2,
+      ease: [0.16, 1, 0.3, 1]
+    }
+  }
+};
+
+const subtitleAnim = {
+  hidden: { opacity: 0, y: 40 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      delay: 0.35
+    }
+  }
+};
+
+const buttonAnim = {
+  hidden: { opacity: 0, y: 30, scale: 0.9 },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.7,
+      delay: 0.5
+    }
+  }
+};
+
+/* ================= STYLED COMPONENTS ================= */
+
+const Section = styled(motion.section)`
   background: url(${backgroundImg}) center/cover no-repeat;
   padding: 6rem 2rem;
   display: flex;
@@ -15,14 +69,12 @@ const Section = styled.section`
   text-align: center;
 `;
 
-// Title with double border
-const Title = styled.h2`
+const Title = styled(motion.h2)`
   font-family: "Bangers", cursive;
   font-size: 3rem;
   color: white;
   margin-bottom: 0.1rem;
 
-  /* Double border effect */
   text-shadow: 
     -1px -1px 0 #000,  
     1px -1px 0 #000,
@@ -38,15 +90,13 @@ const Title = styled.h2`
   }
 `;
 
-// Subtitle with single border
-const Subtitle = styled.p`
+const Subtitle = styled(motion.p)`
   font-family: "Open Sans", sans-serif;
   font-size: 1.2rem;
   color: white;
   margin-bottom: 0.5rem;
   max-width: 600px;
 
-  /* Single border effect */
   text-shadow: 
     -1px -1px 0 #000,  
     1px -1px 0 #000,
@@ -58,8 +108,7 @@ const Subtitle = styled.p`
   }
 `;
 
-// Button (same as homepage)
-const Button = styled(Link)`
+const Button = styled(motion(Link))`
   background: linear-gradient(270deg, #ff003c, #8a2be2);
   color: white;
   padding: 1rem 2.5rem;
@@ -76,14 +125,32 @@ const Button = styled(Link)`
   }
 `;
 
+/* ================= COMPONENT ================= */
+
 const AIPlanning = () => {
   return (
-    <Section>
-      <Title>AI PLANNING</Title>
-      <Subtitle>
-        Use our AI to help achieve <br/>your desired body.
+    <Section
+      variants={sectionAnim}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, margin: "-120px" }}
+    >
+      <Title variants={titleAnim}>
+        AI PLANNING
+      </Title>
+
+      <Subtitle variants={subtitleAnim}>
+        Use our AI to help achieve <br /> your desired body.
       </Subtitle>
-      <Button to="/signup">Register Now</Button>
+
+      <Button
+        to="/signup"
+        variants={buttonAnim}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.97 }}
+      >
+        Register Now
+      </Button>
     </Section>
   );
 };

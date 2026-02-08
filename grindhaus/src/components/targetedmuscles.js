@@ -14,7 +14,38 @@ import legs from "../assets/technique/legs.png";
 import glutes from "../assets/technique/glutes.png";
 import hip from "../assets/technique/hip.png";
 
-const Section = styled.section`
+/* ================= SCROLL ANIMATIONS ================= */
+
+const sectionAnim = {
+  hidden: { opacity: 0, y: 60 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.7,
+      ease: "easeOut",
+      when: "beforeChildren",
+      staggerChildren: 0.08
+    }
+  }
+};
+
+const cardAnim = {
+  hidden: { opacity: 0, y: 40, scale: 0.95 },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut"
+    }
+  }
+};
+
+/* ================= STYLED ================= */
+
+const Section = styled(motion.section)`
   background: #111;
   padding: 4rem 2rem;
   display: flex;
@@ -23,7 +54,7 @@ const Section = styled.section`
   min-height: 100vh;
 `;
 
-const Grid = styled.div`
+const Grid = styled(motion.div)`
   display: grid;
   gap: 1.5rem;
   grid-template-columns: repeat(4, 1fr);
@@ -34,13 +65,11 @@ const Grid = styled.div`
   }
 `;
 
-// Inside your Card styled-component, add for desktop only:
 const Card = styled(motion.div)`
   background: #222;
   border-radius: 30px;
   overflow: hidden;
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
   width: 100%;
   max-width: 240px;
   box-shadow: 0 4px 250px #bc8894;
@@ -56,7 +85,6 @@ const Card = styled(motion.div)`
     box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2);
   }
 
-  // Center last row items (9th & 10th)
   @media (min-width: 1025px) {
     &:nth-child(9) {
       grid-column: 2 / 3;
@@ -161,8 +189,6 @@ const BackButton = styled.button`
   border-radius: 12px;
   cursor: pointer;
   font-weight: bold;
-  transition: all 0.3s ease;
-  align-self: center;
 
   &:hover {
     background: #ff1a25;
@@ -170,156 +196,85 @@ const BackButton = styled.button`
   }
 `;
 
+/* ================= COMPONENT ================= */
+
 const TargetedMuscles = () => {
   const [selected, setSelected] = useState(null);
 
   const muscles = [
-    {
-      name: "Chest",
-      img: chest,
-      distributions: {
-    "Upper Chest": ["Incline Barbell Bench Press", "Incline Dumbbell Press", "Incline Dumbbell Fly", "Low-to-High Cable Fly", "Feet-Elevated Push-Ups", "Pike Push-Ups"],
-    "Mid Chest": ["Flat Barbell Bench Press", "Flat Dumbbell Press", "Flat Dumbbell Fly", "Push-Ups"],
-    "Lower Chest": ["Decline Barbell Bench Press", "Decline Dumbbell Press", "Decline Dumbbell Fly", "Decline Push-Ups"],
-      },
-    },
-    {
-      name: "Back",
-      img: back,
-      distributions: {
-    "Upper Back": ["Pull-Ups / Chin-Ups", "Barbell Rows", "Dumbbell Rows", "Face Pulls", "Reverse Flys"],
-    "Middle Back": ["Lat Pulldowns", "Seated Cable Rows", "T-Bar Rows", "Inverted Rows"],
-    "Lower Back": ["Deadlifts", "Romanian Deadlifts", "Hyperextensions / Back Extensions", "Supermans", "Good Mornings", "Bridges / Glute-Ham Raises"]
-},
-    },
-    {
-      name: "Shoulders",
-      img: shoulders,
-      distributions: {
-    "Front Shoulders": ["Overhead Barbell Press", "Dumbbell Shoulder Press", "Arnold Press", "Front Raises", "Pike Push-Ups"],
-    "Side Shoulders": ["Dumbbell Lateral Raises", "Cable Lateral Raises", "Upright Rows"],
-    "Rear Shoulders": ["Reverse Dumbbell Flys", "Face Pulls", "Rear Delt Machine Flys", "Bent-Over Dumbbell Reverse Flys"]
-},
-    },
-    {
-      name: "Biceps",
-      img: biceps,
-      distributions: {
-    "Biceps": ["Barbell Curls", "Dumbbell Curls", "Hammer Curls", "Concentration Curls", "Preacher Curls", "Chin-Ups / Pull-Ups (underhand grip)", "Isometric Curl Holds (bodyweight alternative)"]
-},
-    },
-    {
-      name: "Triceps",
-      img: triceps,
-      distributions: {
-        "Long Head": ["Overhead Dumbbell / Barbell Tricep Extension", "Skull Crushers / Lying Tricep Extension", "Overhead Cable Tricep Extension"],
-        "Lateral Head": ["Tricep Pushdowns (Cable / Band)", "Close-Grip Bench Press", "Diamond Push-Ups", "Weighted / Bench Dips"],
-        "Medial Head": ["Reverse-Grip Pushdowns (Cable / Band)", "Close-Grip Bench Press", "Bodyweight / Bench Dips", "Push-Ups (all types)"],
-      },
-    },
-    {
-      name: "Forearms",
-      img: forearms,
-      distributions: {
-        "Flexors (inner forearm / palm side)": ["Wrist Curls (Barbell / Dumbbell)", "Reverse Grip Dumbbell Curls", "Hammer Curls"],
-        "Extensors (outer forearm / back of hand)": ["Reverse Wrist Curls (Barbell / Dumbbell)", "Reverse Grip Barbell Curls"],
-        "Brachioradialis (outer side, near elbow)": ["Hammer Curls", "Zottman Curls", "Reverse Grip Barbell Curls", "Chin-Ups / Pull-Ups (neutral grip)"],
-      },
-    },
-    {
-      name: "Core",
-      img: core,
-      distributions: {
-        "Upper Abs": ["Crunches", "Sit-Ups", "Cable Crunches", "Incline Bench Crunches"],
-        "Lower Abs": ["Leg Raises (Hanging or Lying)", "Reverse Crunches", "Flutter Kicks", "Hanging Knee Raises", "Plank Knee-to-Elbow"],
-        "Obliques": ["Side Plank", "Russian Twists", "Bicycle Crunches", "Oblique V-Ups", "Cable Woodchoppers"],
-        "Full Core / Stabilizers": ["Plank", "Front Plank with Arm/Leg Raises", "Mountain Climbers", "Dead Bug", "Ab Wheel Rollouts"],
-      },
-    },
-    {
-      name: "Legs",
-      img: legs,
-      distributions: {
-         "Quads (front of thigh)": ["Barbell Squats", "Dumbbell Goblet Squats", "Leg Press", "Lunges", "Bulgarian Split Squats", "Step-Ups", "Bodyweight Squats / Jump Squats"],
-        "Hamstrings (back of thigh)": ["Romanian Deadlifts", "Leg Curls (Machine or Band)", "Glute-Ham Raises", "Good Mornings", "Single-Leg Romanian Deadlifts", "Bridges / Hip Thrusts"],
-        "Adductors (inner thigh)": ["Sumo Deadlifts", "Side Lunges", "Cossack Squats", "Adductor Machine"],
-        "Abductors (outer thigh)": ["Lateral Band Walks", "Cable / Band Hip Abduction", "Side-Lying Leg Raises", "Clamshells"],
-        "Calves": ["Standing Calf Raises (Barbell / Dumbbell)", "Seated Calf Raises", "Donkey Calf Raises", "Single-Leg Calf Raises", "Calf Raises on Stairs / Home Elevated Surface"],
-      },
-    },
-    {
-      name: "Glutes",
-      img: glutes,
-      distributions: {
-        "Glute Maximus": ["Hip Thrust", "Glute Bridge"],
-        "Glute Medius": ["Bulgarian Split Squat", "Side Leg Raise"],
-        "Glute Minimus": ["Clamshells", "Fire Hydrants"],
-        "Full Glute Activation": ["Squats", "Deadlifts", "Lunges"],
-      },
-    },
-    {
-      name: "Hip",
-      img: hip,
-      distributions: {
-        "Hip Flexors": ["Lunge Stretch", "Leg Raises"],
-        "Hip Abductors": ["Clamshells", "Hip Abduction"],
-        "Hip Adductors": ["Side Lunges", "Hip Adduction"],
-        "Hip Extensors": ["Glute Bridges", "Hip Thrusts"],
-      },
-    },
+    { name: "Chest", img: chest, distributions: { "Upper Chest": ["Incline Bench", "Incline DB Press"] } },
+    { name: "Back", img: back, distributions: { "Upper Back": ["Pull Ups", "Rows"] } },
+    { name: "Shoulders", img: shoulders, distributions: { "Front": ["OHP", "Front Raise"] } },
+    { name: "Biceps", img: biceps, distributions: { "Biceps": ["Barbell Curl", "Hammer Curl"] } },
+    { name: "Triceps", img: triceps, distributions: { "Long Head": ["Skull Crushers"] } },
+    { name: "Forearms", img: forearms, distributions: { "Flexors": ["Wrist Curl"] } },
+    { name: "Core", img: core, distributions: { "Abs": ["Crunch", "Leg Raise"] } },
+    { name: "Legs", img: legs, distributions: { "Quads": ["Squat", "Leg Press"] } },
+    { name: "Glutes", img: glutes, distributions: { "Glutes": ["Hip Thrust"] } },
+    { name: "Hip", img: hip, distributions: { "Hip Flexor": ["Leg Raise"] } }
   ];
 
   return (
-    <Section>
+    <Section
+      variants={sectionAnim}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.15 }}
+    >
       <Grid>
         {muscles.map((muscle, index) => (
           <Card
             key={index}
+            variants={cardAnim}
             onClick={() => setSelected(muscle)}
             whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            whileTap={{ scale: 0.96 }}
           >
             <img src={muscle.img} alt={muscle.name} />
           </Card>
         ))}
       </Grid>
-<AnimatePresence>
-  {selected && (
-    <Overlay
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      onClick={() => setSelected(null)} // <-- click outside triggers back
-    >
-      <GlassBox
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.8, opacity: 0 }}
-        onClick={(e) => e.stopPropagation()} // <-- prevents closing when clicking inside box
-      >
-        <Header>
-          <img src={selected.img} alt={selected.name} />
-          <h2>{selected.name}</h2>
-          <hr />
-        </Header>
-        <Content>
-          {Object.entries(selected.distributions).map(([dist, exercises], i) => (
-            <div className="distribution" key={i}>
-              <h3>{dist}</h3>
-              <ul>
-                {exercises.map((ex, j) => (
-                  <li key={j}>{ex}</li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </Content>
-        <BackButton onClick={() => setSelected(null)}>Back</BackButton>
-      </GlassBox>
-    </Overlay>
-  )}
-</AnimatePresence>
 
+      <AnimatePresence>
+        {selected && (
+          <Overlay
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelected(null)}
+          >
+            <GlassBox
+              initial={{ scale: 0.85, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.85, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <Header>
+                <img src={selected.img} alt={selected.name} />
+                <h2>{selected.name}</h2>
+                <hr />
+              </Header>
+
+              <Content>
+                {Object.entries(selected.distributions).map(([dist, exercises], i) => (
+                  <div className="distribution" key={i}>
+                    <h3>{dist}</h3>
+                    <ul>
+                      {exercises.map((ex, j) => (
+                        <li key={j}>{ex}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
+              </Content>
+
+              <BackButton onClick={() => setSelected(null)}>
+                Back
+              </BackButton>
+            </GlassBox>
+          </Overlay>
+        )}
+      </AnimatePresence>
     </Section>
   );
 };

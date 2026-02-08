@@ -1,4 +1,4 @@
 @echo off
-cd /d "C:\Users\pawar\OneDrive\Desktop\Grindhaus\grindhaus"
+cd /d "C:\Users\pawar\Desktop\Project\grindhaus\grindhaus"
 powershell -NoProfile -ExecutionPolicy Bypass -Command "npm start"
 pause

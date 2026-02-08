@@ -1,13 +1,65 @@
 // DietPlans.js
 import React from "react";
 import styled from "styled-components";
+import { motion } from "framer-motion";
 
 import muscleGain from "../assets/nutrition/musclegain.png";
 import fatLoss from "../assets/nutrition/fatloss.png";
 import performance from "../assets/nutrition/performance.png";
 import healthyEating from "../assets/nutrition/healthy.png";
 
-const Section = styled.section`
+/* ================= SCROLL ANIMATIONS ================= */
+
+const sectionAnim = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      duration: 0.6,
+      when: "beforeChildren",
+      staggerChildren: 0.12
+    }
+  }
+};
+
+const titleAnim = {
+  hidden: { opacity: 0, y: -40 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" }
+  }
+};
+
+const gridAnim = {
+  hidden: { opacity: 0, y: 40 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.7,
+      ease: "easeOut",
+      staggerChildren: 0.15
+    }
+  }
+};
+
+const cardAnim = {
+  hidden: { opacity: 0, y: 60, scale: 0.96 },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.55,
+      ease: "easeOut"
+    }
+  }
+};
+
+/* ================= STYLED ================= */
+
+const Section = styled(motion.section)`
   background: #111;
   padding: 2rem;
   display: flex;
@@ -15,7 +67,7 @@ const Section = styled.section`
   align-items: center;
 `;
 
-const Title = styled.h2`
+const Title = styled(motion.h2)`
   background: white;
   width: 100%;
   color: black;
@@ -27,11 +79,11 @@ const Title = styled.h2`
   box-shadow: 2px 10px 5px rgba(0, 0, 0, 0.2);
 `;
 
-const Grid = styled.div`
+const Grid = styled(motion.div)`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  row-gap: 0.8rem; /* keep vertical spacing */
-  column-gap: 0;   /* no column gap */
+  row-gap: 0.8rem;
+  column-gap: 0;
   width: 100%;
   max-width: 1100px;
 
@@ -45,14 +97,13 @@ const Grid = styled.div`
   }
 `;
 
-const Card = styled.div`
+const Card = styled(motion.div)`
   display: flex;
   align-items: center;
   justify-content: center;
 
-  /* only affect 2nd column in each row */
   &:nth-child(even) {
-    margin-left: -1rem; /* overlap horizontally */
+    margin-left: -1rem;
   }
 
   img {
@@ -70,15 +121,30 @@ const Card = styled.div`
   }
 `;
 
+/* ================= COMPONENT ================= */
+
 const DietPlans = () => {
   const plans = [muscleGain, fatLoss, performance, healthyEating];
 
   return (
-    <Section>
-      <Title>Diet Plans Based on Goals</Title>
-      <Grid>
+    <Section
+      variants={sectionAnim}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.2 }}
+    >
+      <Title variants={titleAnim}>
+        Diet Plans Based on Goals
+      </Title>
+
+      <Grid variants={gridAnim}>
         {plans.map((img, i) => (
-          <Card key={i}>
+          <Card
+            key={i}
+            variants={cardAnim}
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.97 }}
+          >
             <img src={img} alt={`diet-plan-${i}`} />
           </Card>
         ))}

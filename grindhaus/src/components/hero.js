@@ -1,12 +1,25 @@
 // Hero.js
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-import heroBg from '../assets/home/hero.png'; // adjust the file name
+import heroBg from '../assets/home/hero.png';
 
+// Gradient animation
 const gradientShift = keyframes`
   0% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
+`;
+
+/* ===== Scroll Animations ===== */
+const fadeUp = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 `;
 
 const RoughenFilter = () => (
@@ -36,41 +49,40 @@ const HeroContainer = styled.div`
   text-align: left;
   color: white;
 
-  /* Background Image */
   background-image: url(${heroBg});
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 
-  /* Overlay for text readability */
   position: relative;
+
   &:before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.5); /* dark overlay */
+    inset: 0;
+    background: rgba(0,0,0,0.5);
     z-index: 0;
   }
 `;
 
 const HeroContent = styled.div`
   position: relative;
-  z-index: 1; /* ensures content is above the overlay */
+  z-index: 1;
+  padding-bottom: 10px;
+
+  opacity: ${({ $visible }) => ($visible ? 1 : 0)};
+  animation: ${({ $visible }) => ($visible ? fadeUp : 'none')} 0.9s ease forwards;
 `;
 
 const HeroTitle = styled.h1`
-  font-family: 'Stardos Stencil', sans-serif; /* stencil font */
+  font-family: 'Stardos Stencil', sans-serif;
   font-weight: 400;
-  font-style: normal;
   font-size: 48px;
   line-height: 150%;
   letter-spacing: 0.09em;
   margin-bottom: 1rem;
   text-align: left;
-  filter: url(#roughen); /* apply rough effect */
+  filter: url(#roughen);
 
   @media (max-width: 768px) {
     font-size: 32px;
@@ -92,17 +104,12 @@ const HeroButton = styled.button`
   color: white;
   padding: 0.8rem 2rem;
   border-radius: 6px;
-  text-decoration: none;
   font-weight: bold;
   background: linear-gradient(270deg, #ff003c, #8a2be2);
   background-size: 400% 400%;
   animation: ${gradientShift} 4s ease infinite;
   box-shadow: 0 0 10px #ff003c, 0 0 20px #8a2be2;
   transition: all 0.3s ease;
-  white-space: nowrap;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
   border: none;
   cursor: pointer;
 
@@ -114,16 +121,33 @@ const HeroButton = styled.button`
 `;
 
 const Hero = () => {
+  const ref = useRef();
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setVisible(true);
+      },
+      { threshold: 0.25 }
+    );
+
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <HeroContainer>
+    <HeroContainer ref={ref}>
       <RoughenFilter />
-      <HeroContent>
+      <HeroContent $visible={visible}>
         <HeroTitle>
           EAT, SLEEP,<br/>GRIND, REPEAT.
         </HeroTitle>
+
         <HeroSubtitle>
           the only fitness companion you'd ever require
         </HeroSubtitle>
+
         <HeroButton>Register Now</HeroButton>
       </HeroContent>
     </HeroContainer>

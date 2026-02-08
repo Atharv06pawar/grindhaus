@@ -1,9 +1,21 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useEffect, useRef, useState } from 'react';
+import styled, { keyframes } from 'styled-components';
 import logo from '../assets/nav/logo.png';
 import fbLogo from '../assets/footer/facebook.png';
 import instaLogo from '../assets/footer/instagram.png';
 import xLogo from '../assets/footer/x.png';
+
+/* ===== Scroll Animation ===== */
+const fadeUp = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
 
 const FooterContainer = styled.footer`
   background: #000000;
@@ -13,6 +25,9 @@ const FooterContainer = styled.footer`
   display: flex;
   flex-direction: column;
   position: relative;
+
+  opacity: ${({ $visible }) => ($visible ? 1 : 0)};
+  animation: ${({ $visible }) => ($visible ? fadeUp : "none")} 0.9s ease forwards;
 `;
 
 const TopSection = styled.div`
@@ -49,7 +64,7 @@ const LogoImg = styled.img`
 
 const Disclaimer = styled.p`
   font-size: 1rem;
-  text-color: #c2bbbbff;
+  color: #c2bbbbff;
   line-height: 1.5;
   max-width: 700px;
   margin: 0;
@@ -90,8 +105,23 @@ const SocialIcons = styled.div`
 `;
 
 const Footer = () => {
+  const ref = useRef();
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setVisible(true);
+      },
+      { threshold: 0.25 }
+    );
+
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
+
   return (
-    <FooterContainer>
+    <FooterContainer ref={ref} $visible={visible}>
       <TopSection>
         <LogoRow>
           <LogoImg src={logo} alt="GrindHaus Logo" />
@@ -100,6 +130,7 @@ const Footer = () => {
             We are here only to create a good community.
           </Disclaimer>
         </LogoRow>
+
         <CopyRight>
           Copyrights © {new Date().getFullYear()} GrindHaus. All rights reserved.
         </CopyRight>

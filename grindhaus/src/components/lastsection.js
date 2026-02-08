@@ -1,7 +1,19 @@
 // LastSection.js
-import React from "react";
-import styled from "styled-components";
-import backgroundImg from "../assets/home/last.png"; // replace with your actual image
+import React, { useEffect, useRef, useState } from "react";
+import styled, { keyframes } from "styled-components";
+import backgroundImg from "../assets/home/last.png";
+
+/* ===== Scroll Animations ===== */
+const fadeScale = keyframes`
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+`;
 
 const Section = styled.section`
   background: url(${backgroundImg}) center/cover no-repeat;
@@ -12,6 +24,9 @@ const Section = styled.section`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  opacity: ${({ $visible }) => ($visible ? 1 : 0)};
+  animation: ${({ $visible }) => ($visible ? fadeScale : "none")} 1s ease forwards;
 `;
 
 const QuoteWrapper = styled.div`
@@ -24,7 +39,6 @@ const QuoteWrapper = styled.div`
   letter-spacing: 0;
   text-align: center;
 
-  /* Inner shadow effect */
   color: transparent;
   background: white;
   -webkit-background-clip: text;
@@ -72,11 +86,27 @@ const Button = styled.button`
 `;
 
 const LastSection = () => {
+  const ref = useRef();
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setVisible(true);
+      },
+      { threshold: 0.3 }
+    );
+
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, []);
+
   return (
-    <Section>
+    <Section ref={ref} $visible={visible}>
       <QuoteWrapper>
         Crush Your Fitness <br /> Goals
       </QuoteWrapper>
+
       <Button>Register Now</Button>
     </Section>
   );
