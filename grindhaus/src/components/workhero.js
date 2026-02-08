@@ -38,8 +38,8 @@ const cardReveal = {
 
 const Section = styled(motion.section)`
   background: #111;
-  padding-top:50px;
   padding: 4rem 2rem;
+  padding-top: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -55,10 +55,9 @@ const Row = styled(motion.div)`
   width: 100%;
 
   @media (max-width: 768px) {
-    flex-direction: column; /* 1 */
+    flex-direction: column;
   }
 `;
-
 
 /* ================= PUSH PULL LEGS GRID ================= */
 
@@ -70,14 +69,13 @@ const Grid = styled(motion.div)`
 
   @media (max-width: 768px) {
     flex-direction: column;
-    align-items: center;   /* ⭐ center horizontally */
+    align-items: center;
   }
 `;
 
-
 /* ================= CARD ================= */
 
-const Card = styled(motion.a)`
+const Card = styled(motion.div)`
   flex: 1;
   max-width: 560px;
   cursor: pointer;
@@ -96,8 +94,6 @@ const Card = styled(motion.a)`
   }
 `;
 
-/* ================= SQUARE ================= */
-
 const Square = styled(Card)`
   max-width: 360px;
 `;
@@ -114,8 +110,6 @@ const Overlay = styled(motion.div)`
   justify-content: center;
   z-index: 2000;
 `;
-
-/* ================= GLASS BOX ================= */
 
 const GlassBox = styled(motion.div)`
   background: rgba(255, 255, 255, 0.1);
@@ -136,11 +130,9 @@ const Header = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex-shrink: 0;
 
   img {
     width: 150px;
-    max-width: 200px;
     margin-bottom: 1rem;
   }
 
@@ -153,7 +145,6 @@ const Header = styled.div`
   hr {
     width: 80%;
     margin: 1rem 0;
-    border: 0;
     border-top: 1px solid rgba(255, 255, 255, 0.3);
   }
 `;
@@ -161,16 +152,9 @@ const Header = styled.div`
 const Content = styled.div`
   flex: 1;
   overflow-y: auto;
-  padding-right: 0.5rem;
 
-  ul {
-    list-style: none;
-    padding-left: 0;
-  }
-
-  li {
-    padding: 0.4rem 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  p {
+    opacity: 0.9;
   }
 `;
 
@@ -182,7 +166,6 @@ const BackButton = styled.button`
   border: none;
   border-radius: 12px;
   cursor: pointer;
-  font-weight: bold;
 
   &:hover {
     background: #ff1a25;
@@ -193,29 +176,6 @@ const BackButton = styled.button`
 
 const WorkHero = () => {
   const [selected, setSelected] = useState(null);
-  const [currentGender, setCurrentGender] = useState(null);
-  const [selectedRoutine, setSelectedRoutine] = useState("");
-
-  const menTabs = [
-    { name: "Workout for Men", img: menImg },
-    { name: "Push", img: pushImg },
-    { name: "Pull", img: pullImg },
-    { name: "Legs", img: legsImg }
-  ];
-
-  const womenTabs = [
-    { name: "Workout for Women", img: womenImg },
-    { name: "Push", img: pushImg },
-    { name: "Pull", img: pullImg },
-    { name: "Legs", img: legsImg }
-  ];
-
-  const genderTabs =
-    currentGender === "Men"
-      ? menTabs
-      : currentGender === "Women"
-      ? womenTabs
-      : null;
 
   return (
     <Section
@@ -230,10 +190,7 @@ const WorkHero = () => {
           variants={cardReveal}
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.97 }}
-          onClick={() => {
-            setCurrentGender("Men");
-            setSelected(menTabs[0]);
-          }}
+          onClick={() => setSelected({ name: "Workout for Men", img: menImg })}
         >
           <img src={menImg} alt="Men" />
         </Card>
@@ -242,10 +199,7 @@ const WorkHero = () => {
           variants={cardReveal}
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.97 }}
-          onClick={() => {
-            setCurrentGender("Women");
-            setSelected(womenTabs[0]);
-          }}
+          onClick={() => setSelected({ name: "Workout for Women", img: womenImg })}
         >
           <img src={womenImg} alt="Women" />
         </Card>
@@ -253,23 +207,21 @@ const WorkHero = () => {
 
       {/* PUSH PULL LEGS */}
       <Grid variants={sectionReveal}>
-        {["Push", "Pull", "Legs"].map((type, i) => {
-          const imgMap = { Push: pushImg, Pull: pullImg, Legs: legsImg };
-
-          return (
-            <Square
-              key={i}
-              variants={cardReveal}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() =>
-                setSelected({ name: type, img: imgMap[type] })
-              }
-            >
-              <img src={imgMap[type]} alt={type} />
-            </Square>
-          );
-        })}
+        {[
+          { name: "Push", img: pushImg },
+          { name: "Pull", img: pullImg },
+          { name: "Legs", img: legsImg }
+        ].map((item, i) => (
+          <Square
+            key={i}
+            variants={cardReveal}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setSelected(item)}
+          >
+            <img src={item.img} alt={item.name} />
+          </Square>
+        ))}
       </Grid>
 
       {/* OVERLAY */}
@@ -285,7 +237,6 @@ const WorkHero = () => {
               initial={{ scale: 0.85, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.85, opacity: 0 }}
-              transition={{ duration: 0.35 }}
               onClick={(e) => e.stopPropagation()}
             >
               <Header>
@@ -295,7 +246,7 @@ const WorkHero = () => {
               </Header>
 
               <Content>
-                <p>Workout content here...</p>
+                <p>Workout content coming soon...</p>
               </Content>
 
               <BackButton onClick={() => setSelected(null)}>
