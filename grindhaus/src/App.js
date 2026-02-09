@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Lenis from "@studio-freight/lenis";
 
 import Header from "./components/header.js";
@@ -11,22 +11,30 @@ import Nutrition from "./components/nutrition.js";
 import Community from "./components/community.js";
 import Login from "./components/login.js";
 import Signup from "./components/signup.js";
+
 import { Container } from "./styles.js";
 import AppLoaderWrapper from "./components/AppLoaderWrapper";
+import GlobalLoader from "./components/GlobalLoader";   // ⭐ SAME LOADER
 
 const App = () => {
 
-  // 🎬 CINEMATIC GLOBAL SCROLL ENGINE
+  const location = useLocation();
+  const lenisRef = useRef(null);
+
+  const [routeLoading, setRouteLoading] = useState(false);
+
+  /* 🎬 CINEMATIC SCROLL ENGINE */
   useEffect(() => {
 
     const lenis = new Lenis({
-      duration: 1.6,              // 🎬 cinematic glide time
+      duration: 1.6,
       smoothWheel: true,
       smoothTouch: true,
-      wheelMultiplier: 0.8,       // 🎯 lower sensitivity (premium feel)
-      touchMultiplier: 1.1,
-      infinite: false
+      wheelMultiplier: 0.8,
+      touchMultiplier: 1.1
     });
+
+    lenisRef.current = lenis;
 
     function raf(time) {
       lenis.raf(time);
@@ -35,20 +43,36 @@ const App = () => {
 
     requestAnimationFrame(raf);
 
-    return () => {
-      lenis.destroy();
-    };
+    return () => lenis.destroy();
 
   }, []);
+
+  /* 🚀 ROUTE CHANGE LOADER + SCROLL TOP */
+  useEffect(() => {
+
+    setRouteLoading(true);
+
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(0, { immediate: true });
+    }
+
+    const timer = setTimeout(() => {
+      setRouteLoading(false);
+    }, 650); // breathing sync feels good here
+
+    return () => clearTimeout(timer);
+
+  }, [location.pathname]);
 
   return (
     <AppLoaderWrapper>
       <Container>
 
-        {/* Navbar */}
         <Header />
 
-        {/* Routes */}
+        {/* ⭐ SAME BREATHING LOADER */}
+        {routeLoading && <GlobalLoader />}
+
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/workout" element={<Workout />} />
@@ -59,7 +83,6 @@ const App = () => {
           <Route path="/signup" element={<Signup />} />
         </Routes>
 
-        {/* Footer */}
         <Footer />
 
       </Container>

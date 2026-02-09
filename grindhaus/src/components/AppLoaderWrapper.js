@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import LoadingScreen from "./LoadingScreen";
+import LoadingScreen from "./GlobalLoader";
 
 export default function AppLoaderWrapper({ children }) {
   const [loading, setLoading] = useState(true);
