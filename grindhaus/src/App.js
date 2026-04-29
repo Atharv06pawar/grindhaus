@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
-import Lenis from "@studio-freight/lenis";
+import React from "react";
+import { AnimatePresence } from "framer-motion";
+import { Route, Routes } from "react-router-dom";
 
 import Header from "./components/header.js";
 import Footer from "./components/footer.js";
@@ -11,80 +11,40 @@ import Nutrition from "./components/nutrition.js";
 import Community from "./components/community.js";
 import Login from "./components/login.js";
 import Signup from "./components/signup.js";
-
-import { Container } from "./styles.js";
 import AppLoaderWrapper from "./components/AppLoaderWrapper";
-import GlobalLoader from "./components/GlobalLoader";   // ⭐ SAME LOADER
+import GlobalLoader from "./components/GlobalLoader";
+import PageTransition from "./components/PageTransition";
+import { Container } from "./styles.js";
+import useLenis from "./hooks/useLenis";
+import useRouteTransition from "./hooks/useRouteTransition";
 
 const App = () => {
-
-  const location = useLocation();
-  const lenisRef = useRef(null);
-
-  const [routeLoading, setRouteLoading] = useState(false);
-
-  /* 🎬 CINEMATIC SCROLL ENGINE */
-  useEffect(() => {
-
-    const lenis = new Lenis({
-      duration: 1.6,
-      smoothWheel: true,
-      smoothTouch: true,
-      wheelMultiplier: 0.8,
-      touchMultiplier: 1.1
-    });
-
-    lenisRef.current = lenis;
-
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-
-    requestAnimationFrame(raf);
-
-    return () => lenis.destroy();
-
-  }, []);
-
-  /* 🚀 ROUTE CHANGE LOADER + SCROLL TOP */
-  useEffect(() => {
-
-    setRouteLoading(true);
-
-    if (lenisRef.current) {
-      lenisRef.current.scrollTo(0, { immediate: true });
-    }
-
-    const timer = setTimeout(() => {
-      setRouteLoading(false);
-    }, 650); // breathing sync feels good here
-
-    return () => clearTimeout(timer);
-
-  }, [location.pathname]);
+  const lenisRef = useLenis();
+  const { displayLocation, isRouteTransitioning } = useRouteTransition(lenisRef);
+  const routeKey = `${displayLocation.pathname}${displayLocation.search}${displayLocation.hash}`;
 
   return (
     <AppLoaderWrapper>
       <Container>
-
         <Header />
 
-        {/* ⭐ SAME BREATHING LOADER */}
-        {routeLoading && <GlobalLoader />}
+        <AnimatePresence initial={false}>
+          {isRouteTransitioning ? <GlobalLoader key="route-loader" label="Loading page" /> : null}
+        </AnimatePresence>
 
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/workout" element={<Workout />} />
-          <Route path="/technique" element={<Technique />} />
-          <Route path="/nutrition" element={<Nutrition />} />
-          <Route path="/community" element={<Community />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-        </Routes>
+        <PageTransition key={routeKey}>
+          <Routes location={displayLocation}>
+            <Route path="/" element={<Home />} />
+            <Route path="/workout" element={<Workout />} />
+            <Route path="/technique" element={<Technique />} />
+            <Route path="/nutrition" element={<Nutrition />} />
+            <Route path="/community" element={<Community />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+          </Routes>
+        </PageTransition>
 
         <Footer />
-
       </Container>
     </AppLoaderWrapper>
   );

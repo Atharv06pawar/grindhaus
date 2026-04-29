@@ -1,0 +1,19 @@
+{
+  "name": "grindhaus-server",
+  "version": "2.0.0",
+  "private": true,
+  "main": "src/server.js",
+  "engines": {
+    "node": ">=18.18.0"
+  },
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "grindhaus": "file:..",
+    "jsonwebtoken": "^9.0.2"
+  }
+}

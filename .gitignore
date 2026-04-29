@@ -1,22 +1,12 @@
-<<<<<<< HEAD
-# dependencies
 node_modules/
 **/node_modules/
-
-# builds
 build/
 dist/
-
-# env files
 .env
 .env.local
-
-# logs
-=======
-node_modules
-**/node_modules
-build
-dist
-.env
->>>>>>> abead2745564baba2a2b9bd8ef152bf84261c39c
 *.log
+ai/engine_cpp/grind_engine.exe
+ai/engine_cpp/users/*.json
+!ai/engine_cpp/users/.gitkeep
+server/data/*.json
+!server/data/.gitkeep

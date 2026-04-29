@@ -1,6 +1,24 @@
 {
-  "dependencies": {
-    "@studio-freight/lenis": "^1.0.42",
-    "lucide-react": "^0.542.0"
+  "name": "grindhaus",
+  "private": true,
+  "version": "2.0.0",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev": "concurrently -k -n server,client -c green,cyan \"npm:dev:server\" \"npm:dev:client\"",
+    "dev:client": "npm --prefix client start",
+    "dev:server": "npm --prefix server run dev",
+    "start": "npm run build && concurrently -k -n api,web -c green,magenta \"npm:start:server\" \"npm:start:client\"",
+    "start:client": "serve -s client/build -l 3000",
+    "start:server": "npm --prefix server start",
+    "build": "npm --prefix client run build",
+    "lint": "npm --prefix client run lint",
+    "test": "npm --prefix server run test"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "serve": "^14.2.4"
   }
 }
