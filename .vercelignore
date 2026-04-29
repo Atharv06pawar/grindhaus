@@ -1,8 +1,6 @@
 node_modules
 client/node_modules
 server/node_modules
-grindhaus
-grindhaus-backend
-grindhaus_ai
 server/data
 ai/engine_cpp/users
+ai/engine_cpp/grind_engine.exe

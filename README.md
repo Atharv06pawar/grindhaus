@@ -8,12 +8,13 @@ Production-ready monorepo layout for the GrindHaus platform.
 grindhaus/
 |- client/               React app (styled-components + framer-motion + lenis)
 |- server/               Node/Express API (modular routes/controllers/services)
+|- api/                  Vercel serverless entrypoints for the Express app
 |- ai/
 |  |- engine_cpp/        Local C++ coaching engine
 |  `- README.md          Future AI system domain notes
-|- grindhaus/            Legacy frontend (not used in active runtime)
-|- grindhaus-backend/    Legacy backend (not used in active runtime)
-`- grindhaus_ai/         Legacy AI stack (not used in active runtime)
+|- package.json          Root scripts for client/server workflow
+|- vercel.json           Vercel build and routing config
+`- grindhaus.bat         One-click local launcher
 ```
 
 ## Local development
@@ -76,8 +77,9 @@ npm run test
 
 ## Vercel deployment
 
-- Root build command: `npm run build`
+- Build command: `cd client && npm install && npm run build`
 - Output directory: `client/build`
+- Framework: `create-react-app`
 - Optional frontend env var for external API: `REACT_APP_API_URL`
 
 If `REACT_APP_API_URL` is not set, frontend requests target `/api/v1/*` on the same origin.
