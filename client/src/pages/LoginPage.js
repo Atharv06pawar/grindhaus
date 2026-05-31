@@ -68,13 +68,13 @@ function LoginPage() {
     <AuthShell>
       <AuthHero>
         <div>
-          <SectionTitle>GrindHaus System</SectionTitle>
+          <SectionTitle>REDAESTH System</SectionTitle>
           <SectionText>
-            One login. One dashboard. One local trainer engine that remembers your numbers and pushes
-            progress.
+            One login. One dashboard. One AI performance ecosystem that remembers your numbers and pushes
+            progress with intent.
           </SectionText>
           <BulletList>
-            <li>Strict AI trainer backed by local C++ memory.</li>
+            <li>AI companion backed by persistent performance memory.</li>
             <li>Profile and streak synced across chat and dashboard.</li>
             <li>Community feed for accountability and proof of work.</li>
           </BulletList>

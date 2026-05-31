@@ -1,6 +1,6 @@
 const DEFAULT_PORT = 5000;
 const API_PREFIX = "/api/v1";
-const DEFAULT_JWT_SECRET = "grindhaus-local-dev-secret";
+const DEFAULT_JWT_SECRET = "redaesth-local-dev-secret";
 const DEFAULT_JWT_EXPIRES_IN = "7d";
 
 function toPort(value) {

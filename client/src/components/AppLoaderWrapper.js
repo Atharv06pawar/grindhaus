@@ -12,7 +12,7 @@ export default function AppLoaderWrapper({ children }) {
     return () => window.clearTimeout(timer);
   }, []);
 
-  if (isBootLoading) return <GlobalLoader label="Loading GrindHaus" />;
+  if (isBootLoading) return <GlobalLoader label="Loading REDAESTH" />;
 
   return children;
 }

@@ -22,7 +22,7 @@ function useLenis() {
     };
 
     frameId = window.requestAnimationFrame(tick);
-    window.__grindhausLenis = lenis;
+    window.__redaesthLenis = lenis;
 
     return () => {
       if (frameId) {
@@ -31,7 +31,7 @@ function useLenis() {
 
       lenis.destroy();
       lenisRef.current = null;
-      window.__grindhausLenis = null;
+      window.__redaesthLenis = null;
     };
   }, []);
 

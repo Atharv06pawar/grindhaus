@@ -2,12 +2,14 @@ import React, { createContext, startTransition, useContext, useEffect, useState 
 
 import { bindUnauthorizedHandler, getCurrentSession, setAccessToken } from "../lib/api";
 
-const STORAGE_KEY = "grindhaus-auth-session";
+const STORAGE_KEY = "redaesth-auth-session";
+const LEGACY_STORAGE_KEY = "grindhaus-auth-session";
 const AuthContext = createContext(null);
 
 function readStoredSession() {
   try {
-    const storedValue = window.localStorage.getItem(STORAGE_KEY);
+    const storedValue =
+      window.localStorage.getItem(STORAGE_KEY) || window.localStorage.getItem(LEGACY_STORAGE_KEY);
 
     if (!storedValue) {
       return null;
@@ -31,10 +33,12 @@ function readStoredSession() {
 function persistSession(session) {
   if (!session?.token || !session?.user) {
     window.localStorage.removeItem(STORAGE_KEY);
+    window.localStorage.removeItem(LEGACY_STORAGE_KEY);
     return;
   }
 
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
+  window.localStorage.removeItem(LEGACY_STORAGE_KEY);
 }
 
 export function AuthProvider({ children }) {

@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 
 import { useAuth } from "../context/AuthContext";
-import { buildWebSocketUrl, getProfile, isRealtimeEnabled } from "../lib/api";
+import { buildWebSocketUrl, getProfile, isRealtimeEnabled, sendChatMessage } from "../lib/api";
 import {
   AppFrame,
   ChatLayout,
@@ -164,25 +164,41 @@ function ChatPage() {
     setIsSending(true);
     setError("");
 
-    const addMockResponse = () => {
-      setMessages((currentMessages) => [
-        ...currentMessages,
-        {
-          id: `assistant-${Date.now()}`,
-          from: "assistant",
-          text: `Mock AI: I logged "${text}". Next step: train, eat, recover, and report the numbers.`
+    const addRestResponse = async () => {
+      try {
+        const payload = await sendChatMessage(text);
+        const assistantMessages = [
+          {
+            id: `assistant-${Date.now()}`,
+            from: "assistant",
+            text: payload.response || payload.reply || "Logged. Keep moving."
+          },
+          ...(payload.notifications || []).slice(-2).map((notification) => ({
+            id: notification.id,
+            from: "assistant",
+            text: `Reminder: ${notification.message}`
+          }))
+        ];
+
+        setMessages((currentMessages) => [...currentMessages, ...assistantMessages]);
+
+        if (payload.profile) {
+          setProfile(payload.profile);
         }
-      ]);
-      setIsSending(false);
+      } catch (requestError) {
+        setError(requestError.message);
+      } finally {
+        setIsSending(false);
+      }
     };
 
     if (socketRef.current?.readyState === WebSocket.OPEN) {
-      socketRef.current.send(JSON.stringify({ text }));
-      mockTimeoutRef.current = window.setTimeout(addMockResponse, 700);
+      socketRef.current.send(JSON.stringify({ message: text, text }));
+      mockTimeoutRef.current = window.setTimeout(addRestResponse, 5000);
       return;
     }
 
-    mockTimeoutRef.current = window.setTimeout(addMockResponse, 320);
+    await addRestResponse();
   };
 
   return (
@@ -193,7 +209,7 @@ function ChatPage() {
         <PanelHeader>
           <div>
             <SectionTitle>Session feed</SectionTitle>
-            <SectionText>The AI trainer responds through the local C++ engine.</SectionText>
+            <SectionText>The AI trainer responds through the local companion engine.</SectionText>
           </div>
         </PanelHeader>
 
@@ -234,7 +250,7 @@ function ChatPage() {
         <PanelHeader>
           <div>
             <SectionTitle>Live profile signals</SectionTitle>
-            <SectionText>These values are synced from engine memory after each message.</SectionText>
+            <SectionText>These values are synced from companion memory after each message.</SectionText>
           </div>
         </PanelHeader>
 

@@ -10,8 +10,8 @@ export const GlobalStyle = createGlobalStyle`
   body {
     overflow-x: hidden;
     background:
-      radial-gradient(circle at top, rgba(255, 87, 34, 0.12), transparent 28%),
-      linear-gradient(180deg, #0f0f11 0%, #070708 100%);
+      radial-gradient(circle at top, rgba(255, 69, 58, 0.1), transparent 28%),
+      linear-gradient(180deg, #0b0b0b 0%, #070708 100%);
   }
 `;
 
@@ -22,16 +22,17 @@ export const LoaderOverlay = styled.div`
   display: grid;
   place-items: center;
   background:
-    radial-gradient(circle at center, rgba(255, 87, 34, 0.22), transparent 42%),
-    linear-gradient(180deg, #0f0f11 0%, #070708 100%);
+    radial-gradient(circle at center, rgba(255, 69, 58, 0.2), transparent 42%),
+    linear-gradient(180deg, #090909 0%, #050505 100%);
 `;
 
 export const LoaderPulse = styled.div`
-  width: 120px;
-  height: 120px;
+  min-width: 172px;
+  min-height: 72px;
+  padding: 18px 24px;
   display: grid;
   place-items: center;
-  border-radius: 30px;
+  border-radius: 999px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
@@ -44,7 +45,7 @@ export const LoaderPulse = styled.div`
     }
     50% {
       transform: scale(1);
-      box-shadow: 0 20px 52px rgba(255, 87, 34, 0.28);
+      box-shadow: 0 20px 52px rgba(255, 69, 58, 0.22);
     }
     100% {
       transform: scale(0.92);
@@ -53,10 +54,18 @@ export const LoaderPulse = styled.div`
   }
 `;
 
-export const LoaderLogo = styled.img`
-  width: 72px;
-  height: 72px;
-  object-fit: contain;
+export const LoaderLogo = styled.span`
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.26em;
+  color: #f5f5f5;
+  text-transform: uppercase;
+  white-space: nowrap;
+
+  &::before {
+    content: "REDAESTH";
+  }
 `;
 
 export const RouteLoaderOverlay = styled(motion.div)`
@@ -66,7 +75,7 @@ export const RouteLoaderOverlay = styled(motion.div)`
   display: grid;
   place-items: center;
   background:
-    radial-gradient(circle at center, rgba(255, 87, 34, 0.12), transparent 38%),
+    radial-gradient(circle at center, rgba(255, 69, 58, 0.12), transparent 38%),
     rgba(7, 7, 8, 0.32);
   backdrop-filter: blur(8px);
   pointer-events: none;
@@ -144,9 +153,9 @@ export const BrandImage = styled.img`
 `;
 
 export const BrandTitle = styled.div`
-  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
   font-weight: 800;
-  letter-spacing: -0.04em;
 `;
 
 export const BrandSubtitle = styled.div`
@@ -174,7 +183,7 @@ export const NavItem = styled(NavLink)`
   transition: background 0.2s ease, color 0.2s ease;
 
   &.active {
-    background: rgba(255, 87, 34, 0.18);
+    background: rgba(255, 69, 58, 0.18);
     color: #ffffff;
   }
 
@@ -340,7 +349,7 @@ export const Input = styled.input`
   outline: none;
 
   &:focus {
-    border-color: rgba(255, 87, 34, 0.7);
+    border-color: rgba(255, 69, 58, 0.7);
   }
 `;
 
@@ -356,7 +365,7 @@ export const Textarea = styled.textarea`
   outline: none;
 
   &:focus {
-    border-color: rgba(255, 87, 34, 0.7);
+    border-color: rgba(255, 69, 58, 0.7);
   }
 `;
 
@@ -368,7 +377,7 @@ export const ButtonRow = styled.div`
 
 export const PrimaryButton = styled.button`
   ${buttonStyles};
-  background: linear-gradient(135deg, #ff5a36 0%, #ff7a1a 100%);
+  background: linear-gradient(135deg, #ff453a 0%, #ff6a5f 100%);
   color: #ffffff;
 `;
 
@@ -393,8 +402,8 @@ export const GhostLink = styled(Link)`
 `;
 
 export const DangerButton = styled(SecondaryButton)`
-  border-color: rgba(255, 87, 34, 0.28);
-  color: #ffba9d;
+  border-color: rgba(255, 69, 58, 0.28);
+  color: #ffb5af;
 `;
 
 export const Badge = styled.span`
@@ -403,8 +412,8 @@ export const Badge = styled.span`
   gap: 8px;
   padding: 8px 12px;
   border-radius: 999px;
-  background: rgba(255, 87, 34, 0.14);
-  color: #ffb08f;
+  background: rgba(255, 69, 58, 0.14);
+  color: #ffb5af;
   font-size: 0.84rem;
   font-weight: 700;
 `;
@@ -493,7 +502,7 @@ export const MessageBubble = styled.div`
   max-width: 78%;
   padding: 14px 16px;
   border-radius: ${({ $from }) => ($from === "user" ? "18px 18px 6px 18px" : "18px 18px 18px 6px")};
-  background: ${({ $from }) => ($from === "user" ? "#ff5a36" : "rgba(255,255,255,0.06)")};
+  background: ${({ $from }) => ($from === "user" ? "#ff453a" : "rgba(255,255,255,0.06)")};
   line-height: 1.6;
   white-space: pre-wrap;
 `;

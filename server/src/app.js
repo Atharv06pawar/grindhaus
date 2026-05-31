@@ -3,9 +3,13 @@ const express = require("express");
 const config = require("./config/env");
 const { errorHandler, notFoundHandler } = require("./middleware/errors");
 const apiRoutes = require("./routes");
+const { startCompanionScheduler } = require("../ai/scheduler");
 const { initializeDataStore } = require("./services/dataStoreService");
 
 initializeDataStore();
+if (process.env.DISABLE_AI_SCHEDULER !== "true") {
+  startCompanionScheduler();
+}
 
 const app = express();
 

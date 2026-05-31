@@ -44,7 +44,7 @@ function App() {
         <Header />
 
         <AnimatePresence initial={false}>
-          {isRouteTransitioning ? <GlobalLoader key="route-loader" label="Loading page" /> : null}
+          {isRouteTransitioning ? <GlobalLoader key="route-loader" label="Loading REDAESTH page" /> : null}
         </AnimatePresence>
 
         <PageTransition key={routeKey}>

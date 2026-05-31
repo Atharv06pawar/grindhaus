@@ -1,15 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
-import styled, { keyframes } from 'styled-components';
-import logo from '../assets/nav/logo.png';
-import fbLogo from '../assets/footer/facebook.png';
-import instaLogo from '../assets/footer/instagram.png';
-import xLogo from '../assets/footer/x.png';
+import React, { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
+import styled, { keyframes } from "styled-components";
 
-/* ===== Scroll Animation ===== */
+import BrandWordmark from "./BrandWordmark";
+
 const fadeUp = keyframes`
   from {
     opacity: 0;
-    transform: translateY(50px);
+    transform: translateY(28px);
   }
   to {
     opacity: 1;
@@ -18,94 +16,82 @@ const fadeUp = keyframes`
 `;
 
 const FooterContainer = styled.footer`
-  background: #000000;
-  color: white;
-  padding: 1.5rem 2rem;
-  font-family: "Times New Roman", Times, serif;
-  display: flex;
-  flex-direction: column;
   position: relative;
-
+  overflow: hidden;
+  background: #0b0b0b;
+  color: #f5f5f5;
+  padding: clamp(3rem, 7vw, 5rem) 1.5rem;
+  font-family: "Bricolage Grotesque", sans-serif;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
   opacity: ${({ $visible }) => ($visible ? 1 : 0)};
-  animation: ${({ $visible }) => ($visible ? fadeUp : "none")} 0.9s ease forwards;
+  animation: ${({ $visible }) => ($visible ? fadeUp : "none")} 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 50% 0%, rgba(255, 69, 58, 0.12), transparent 34%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent);
+    pointer-events: none;
+  }
 `;
 
-const TopSection = styled.div`
+const FooterInner = styled.div`
+  position: relative;
+  z-index: 1;
+  width: min(100%, 1120px);
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  max-width: 1200px;
-  width: 100%;
-  margin-bottom: 1rem;
-
-  @media (max-width: 768px) {
-    align-items: center;
-    text-align: center;
-  }
+  align-items: center;
+  text-align: center;
+  gap: 1.35rem;
 `;
 
-const LogoRow = styled.div`
-  display: flex;
-  align-items: flex-start;
-  margin-bottom: 0.5rem;
-
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-`;
-
-const LogoImg = styled.img`
-  height: 90px;
-  width: auto;
-  margin-right: 1.5rem;
-`;
-
-const Disclaimer = styled.p`
-  font-size: 1rem;
-  color: #c2bbbbff;
-  line-height: 1.5;
-  max-width: 700px;
+const FooterTagline = styled.p`
   margin: 0;
+  color: rgba(245, 245, 245, 0.7);
+  font-size: clamp(1rem, 1.7vw, 1.2rem);
+  letter-spacing: 0.02em;
+`;
+
+const FooterNav = styled.nav`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.85rem 1.35rem;
+  margin-top: 0.4rem;
+`;
+
+const FooterLink = styled(Link)`
+  color: rgba(245, 245, 245, 0.62);
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.25s ease, text-shadow 0.25s ease;
+
+  &:hover,
+  &:focus-visible {
+    color: #f5f5f5;
+    text-shadow: 0 0 16px rgba(255, 69, 58, 0.24);
+  }
+`;
+
+const FooterDivider = styled.div`
+  width: min(100%, 560px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.16), transparent);
+  margin: 0.65rem 0 0.15rem;
 `;
 
 const CopyRight = styled.p`
-  font-size: 0.9rem;
-  color: #888;
-  text-align: left;
-  margin-top: 0.5rem;
-`;
-
-const SocialIcons = styled.div`
-  position: absolute;
-  right: 2rem;
-  bottom: 1.5rem;
-  display: flex;
-  gap: 1rem;
-
-  img {
-    height: 28px;
-    width: auto;
-    cursor: pointer;
-    transition: transform 0.3s ease, filter 0.3s ease;
-    filter: drop-shadow(0 0 5px #ff003c) drop-shadow(0 0 8px #9b00ff);
-
-    &:hover {
-      transform: scale(1.1);
-      filter: drop-shadow(0 0 8px #ff003c) drop-shadow(0 0 12px #9b00ff);
-    }
-  }
-
-  @media (max-width: 768px) {
-    position: static;
-    margin-top: 1rem;
-    justify-content: center;
-  }
+  margin: 0;
+  color: rgba(245, 245, 245, 0.42);
+  font-size: 0.86rem;
 `;
 
 const Footer = () => {
-  const ref = useRef();
+  const ref = useRef(null);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -113,7 +99,7 @@ const Footer = () => {
       ([entry]) => {
         if (entry.isIntersecting) setVisible(true);
       },
-      { threshold: 0.25 }
+      { threshold: 0.2 }
     );
 
     if (ref.current) obs.observe(ref.current);
@@ -122,31 +108,20 @@ const Footer = () => {
 
   return (
     <FooterContainer ref={ref} $visible={visible}>
-      <TopSection>
-        <LogoRow>
-          <LogoImg src={logo} alt="GrindHaus Logo" />
-          <Disclaimer>
-            GrindHaus uses videos and form of the exercise from open source contents. 
-            We are here only to create a good community.
-          </Disclaimer>
-        </LogoRow>
+      <FooterInner>
+        <BrandWordmark size="md" />
+        <FooterTagline>AI-Powered Human Performance Ecosystem</FooterTagline>
 
-        <CopyRight>
-          Copyrights © {new Date().getFullYear()} GrindHaus. All rights reserved.
-        </CopyRight>
-      </TopSection>
+        <FooterNav aria-label="Footer navigation">
+          <FooterLink to="/">Vision</FooterLink>
+          <FooterLink to="/technique">Technology</FooterLink>
+          <FooterLink to="/community">Community</FooterLink>
+          <FooterLink as="a" href="mailto:hello@redaesth.ai">Contact</FooterLink>
+        </FooterNav>
 
-      <SocialIcons>
-        <a href="https://facebook.com" target="_blank" rel="noreferrer">
-          <img src={fbLogo} alt="Facebook" />
-        </a>
-        <a href="https://instagram.com" target="_blank" rel="noreferrer">
-          <img src={instaLogo} alt="Instagram" />
-        </a>
-        <a href="https://twitter.com" target="_blank" rel="noreferrer">
-          <img src={xLogo} alt="Twitter / X" />
-        </a>
-      </SocialIcons>
+        <FooterDivider />
+        <CopyRight>Copyright &copy; {new Date().getFullYear()} REDAESTH. All rights reserved.</CopyRight>
+      </FooterInner>
     </FooterContainer>
   );
 };

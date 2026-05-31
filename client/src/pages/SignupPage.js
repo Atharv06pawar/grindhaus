@@ -75,7 +75,7 @@ function SignupPage() {
           <BulletList>
             <li>User session stored locally for fast local development.</li>
             <li>Profile data persisted in the unified Node backend.</li>
-            <li>Trainer memory synced to the C++ engine on every chat session.</li>
+            <li>Trainer memory synced to the AI companion on every chat session.</li>
           </BulletList>
         </div>
 

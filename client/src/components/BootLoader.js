@@ -1,15 +1,9 @@
 import React from "react";
 
-import { LoaderLogo, LoaderOverlay, LoaderPulse } from "../styles/ui";
+import GlobalLoader from "./GlobalLoader";
 
 function BootLoader() {
-  return (
-    <LoaderOverlay role="status" aria-live="polite" aria-label="Loading GrindHaus">
-      <LoaderPulse>
-        <LoaderLogo src="/grindhaus-logo.png" alt="GrindHaus" />
-      </LoaderPulse>
-    </LoaderOverlay>
-  );
+  return <GlobalLoader label="Restoring REDAESTH session" />;
 }
 
 export default BootLoader;

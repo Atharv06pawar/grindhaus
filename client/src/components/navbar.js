@@ -1,15 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import styled, { keyframes } from "styled-components";
-import logo from "../assets/nav/logo.png";
-import { useAuth } from "../context/AuthContext";
+import styled from "styled-components";
 
-/* Gradient animation */
-const gradientShift = keyframes`
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-`;
+import BrandWordmark from "./BrandWordmark";
+import { useAuth } from "../context/AuthContext";
 
 /* ===== NAV ===== */
 const Nav = styled.nav`
@@ -30,8 +24,6 @@ const Nav = styled.nav`
   padding: 0.9rem 1.5rem;
 
   font-family: "Bricolage Grotesque", sans-serif;
-
-
 `;
 
 /* ===== GLASS TAB BASE ===== */
@@ -66,9 +58,24 @@ const Left = styled(GlassTab)`
   justify-self: start;
 `;
 
-const Logo = styled.img`
-  height: 55px;
+const LogoLink = styled(Link)`
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
   cursor: pointer;
+  outline: none;
+`;
+
+const LogoText = styled(BrandWordmark)`
+  transition: color 0.28s ease, letter-spacing 0.28s ease, text-shadow 0.28s ease, transform 0.28s ease;
+
+  ${LogoLink}:hover &,
+  ${LogoLink}:focus-visible & {
+    color: #ffffff;
+    letter-spacing: 0.34em;
+    text-shadow: 0 0 18px rgba(255, 69, 58, 0.34);
+    transform: translateY(-1px);
+  }
 `;
 
 /* CENTER */
@@ -86,7 +93,7 @@ const CenterLinks = styled(GlassTab)`
     font-size: 1.05rem;
 
     &:hover {
-      color: #ff003c;
+      color: #ff453a;
     }
   }
 
@@ -105,21 +112,22 @@ const Right = styled.div`
 
 /* Glow Button */
 const GlowButton = styled(Link)`
-  color: white;
+  color: #f5f5f5;
   padding: 0.6rem 1.3rem;
   border-radius: 10px;
   text-decoration: none;
   font-weight: bold;
 
-  background: linear-gradient(270deg, #ff003c, #8a2be2);
-  background-size: 400% 400%;
-  animation: ${gradientShift} 4s ease infinite;
-
-  box-shadow: 0 0 10px #ff003c, 0 0 20px #8a2be2;
+  background: rgba(255, 69, 58, 0.13);
+  border: 1px solid rgba(255, 69, 58, 0.35);
+  box-shadow: 0 0 22px rgba(255, 69, 58, 0.14);
+  transition: background 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease, transform 0.28s ease;
 
   &:hover {
-    animation: none;
-    background: #ff003c;
+    background: rgba(255, 69, 58, 0.22);
+    border-color: rgba(255, 69, 58, 0.72);
+    box-shadow: 0 0 26px rgba(255, 69, 58, 0.26);
+    transform: translateY(-1px);
   }
 
   @media (max-width: 768px) {
@@ -186,7 +194,7 @@ const MobileLink = styled(Link)`
   font-size: 1.3rem;
 
   &:hover {
-    color: #ff003c;
+    color: #ff453a;
   }
 `;
 
@@ -202,7 +210,7 @@ const AccountButton = styled(GlowButton)`
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const { currentUser, isAuthenticated } = useAuth();
-  const accountLabel = isAuthenticated ? currentUser?.username || "Profile" : "LogIn / SignUp";
+  const accountLabel = isAuthenticated ? currentUser?.username || "Profile" : "Login / Signup";
   const accountPath = isAuthenticated ? "/profile" : "/login";
 
   useEffect(() => {
@@ -244,9 +252,9 @@ const Navbar = () => {
 
       <Nav>
         <Left>
-          <Link to="/">
-            <Logo src={logo} alt="GrindHaus" />
-          </Link>
+          <LogoLink to="/" aria-label="REDAESTH home">
+            <LogoText size="md" />
+          </LogoLink>
         </Left>
 
         <CenterLinks>

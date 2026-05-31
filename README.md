@@ -1,11 +1,11 @@
-# GrindHaus
+# REDAESTH
 
-Production-ready monorepo layout for the GrindHaus platform.
+Production-ready monorepo layout for the REDAESTH platform.
 
 ## Active architecture
 
 ```text
-grindhaus/
+redaesth/
 |- client/               React app (styled-components + framer-motion + lenis)
 |- server/               Node/Express API (modular routes/controllers/services)
 |- api/                  Vercel serverless entrypoints for the Express app
@@ -63,7 +63,48 @@ npm run test
 - `POST /api/v1/auth/login`
 
 ### Chat
+- `POST /api/v1/chat`
 - `POST /api/v1/chat/message`
+- `GET /api/v1/chat/notifications`
+- `POST /api/v1/chat/notifications/read`
+
+## Local AI companion
+
+The chat system runs locally without external LLM APIs. It uses `server/ai/memory.json`
+as persistent companion memory and updates it after each chat turn. The file is local-only
+and ignored by git so real user memory is not committed.
+
+Memory stores:
+- user goals, weight, preferences, and habits
+- chat history
+- hydration, nutrition, workout, inactivity, and performance notifications
+
+The always-on simulator starts with the server and runs health checks every minute.
+Set `DISABLE_AI_SCHEDULER=true` to disable the interval for special local runs.
+
+Example:
+
+```powershell
+npm run dev:server
+```
+
+```http
+POST /api/v1/chat
+Content-Type: application/json
+Authorization: Bearer <token>
+
+{
+  "message": "I didn't workout today"
+}
+```
+
+Response:
+
+```json
+{
+  "response": "That is okay, but consistency matters. Let's plan tomorrow: pick one focused session, keep it short, and restart the streak."
+}
+```
 
 ### Profiles
 - `GET /api/v1/profiles/:userId`

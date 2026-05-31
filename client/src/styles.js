@@ -1,18 +1,17 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  font-family: Arial, sans-serif;
+  font-family: "Bricolage Grotesque", sans-serif;
   width: 100%;
   margin: 0 auto;
   header {
     text-align: center;
-    background: #f4f4f4;
+    background: transparent;
   }
   footer {
-    text-align: left;
+    text-align: center;
     margin-top: 20px;
-    padding: 10px;
-    background: #000000;
+    background: #0b0b0b;
   }
   form {
     display: flex;

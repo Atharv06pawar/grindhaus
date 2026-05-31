@@ -10,3 +10,4 @@ ai/engine_cpp/users/*.json
 !ai/engine_cpp/users/.gitkeep
 server/data/*.json
 !server/data/.gitkeep
+server/ai/memory.json

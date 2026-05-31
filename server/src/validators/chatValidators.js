@@ -1,18 +1,19 @@
 const { normalizeString } = require("../utils/sanitize");
 
 function validateChatMessage(payload) {
-  const text = normalizeString(payload.text);
+  const text = normalizeString(payload.message || payload.text);
 
   if (!text) {
-    return { error: "text is required." };
+    return { error: "message is required." };
   }
 
   if (text.length > 1000) {
-    return { error: "text must be 1000 characters or fewer." };
+    return { error: "message must be 1000 characters or fewer." };
   }
 
   return {
     value: {
+      message: text,
       text
     }
   };

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import { useLocation } from "react-router-dom";
 
-import { LoaderLogo, LoaderPulse, RouteLoaderOverlay } from "../styles/ui";
+import GlobalLoader, { ROUTE_LOADER_DURATION_MS } from "./GlobalLoader";
 
 function RouteLoader() {
   const location = useLocation();
@@ -20,7 +20,7 @@ function RouteLoader() {
     timeoutRef.current = window.setTimeout(() => {
       setIsVisible(false);
       timeoutRef.current = null;
-    }, 420);
+    }, ROUTE_LOADER_DURATION_MS);
 
     return () => {
       if (timeoutRef.current) {
@@ -32,19 +32,7 @@ function RouteLoader() {
 
   return (
     <AnimatePresence>
-      {isVisible ? (
-        <RouteLoaderOverlay
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.18, ease: "easeOut" }}
-          role="presentation"
-        >
-          <LoaderPulse>
-            <LoaderLogo src="/grindhaus-logo.png" alt="" aria-hidden="true" />
-          </LoaderPulse>
-        </RouteLoaderOverlay>
-      ) : null}
+      {isVisible ? <GlobalLoader key="route-loader" label="Loading REDAESTH page" /> : null}
     </AnimatePresence>
   );
 }

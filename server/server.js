@@ -3,7 +3,7 @@ const config = require("./src/config/env");
 
 if (require.main === module) {
   app.listen(config.port, () => {
-    console.log(`GrindHaus API running on http://localhost:${config.port}${config.apiPrefix}`);
+    console.log(`REDAESTH API running on http://localhost:${config.port}${config.apiPrefix}`);
   });
 }
 

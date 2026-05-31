@@ -1,5 +1,5 @@
 {
-  "name": "grindhaus-server",
+  "name": "redaesth-server",
   "version": "2.0.0",
   "private": true,
   "main": "src/server.js",
@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "express": "^5.1.0",
-    "grindhaus": "file:..",
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "^9.0.2",
+    "redaesth": "file:.."
   }
 }

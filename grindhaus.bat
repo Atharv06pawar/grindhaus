@@ -2,7 +2,7 @@
 setlocal
 
 if /i "%~1"=="--dry-run" (
-  set "GRINDHAUS_DRY_RUN=1"
+  set "REDAESTH_DRY_RUN=1"
 )
 
 set "ROOT=%~dp0"
@@ -29,12 +29,12 @@ if errorlevel 1 (
   exit /b 1
 )
 
-if /i "%GRINDHAUS_DRY_RUN%"=="1" (
+if /i "%REDAESTH_DRY_RUN%"=="1" (
   echo [dry-run] npm install --prefix "%CLIENT_DIR%"
   echo [dry-run] npm install --prefix "%SERVER_DIR%"
-  echo [dry-run] start "GrindHaus API" cmd /k "cd /d ""%SERVER_DIR%"" ^&^& npm run dev"
-  echo [dry-run] start "GrindHaus Frontend" cmd /k "cd /d ""%CLIENT_DIR%"" ^&^& npm start"
-  echo [dry-run] start "GrindHaus Browser" powershell -NoProfile -ExecutionPolicy Bypass -Command "Start-Sleep -Seconds 8; Start-Process '%FRONTEND_URL%'"
+  echo [dry-run] start "REDAESTH API" cmd /k "cd /d ""%SERVER_DIR%"" ^&^& npm run dev"
+  echo [dry-run] start "REDAESTH Frontend" cmd /k "cd /d ""%CLIENT_DIR%"" ^&^& npm start"
+  echo [dry-run] start "REDAESTH Browser" powershell -NoProfile -ExecutionPolicy Bypass -Command "Start-Sleep -Seconds 8; Start-Process '%FRONTEND_URL%'"
   exit /b 0
 )
 
@@ -58,14 +58,14 @@ if not exist "%SERVER_DIR%\node_modules" (
   )
 )
 
-echo Launching GrindHaus API...
-start "GrindHaus API" cmd /k "cd /d ""%SERVER_DIR%"" && npm run dev"
+echo Launching REDAESTH API...
+start "REDAESTH API" cmd /k "cd /d ""%SERVER_DIR%"" && npm run dev"
 
-echo Launching GrindHaus frontend...
-start "GrindHaus Frontend" cmd /k "cd /d ""%CLIENT_DIR%"" && npm start"
+echo Launching REDAESTH frontend...
+start "REDAESTH Frontend" cmd /k "cd /d ""%CLIENT_DIR%"" && npm start"
 
 echo Opening browser...
-start "GrindHaus Browser" powershell -NoProfile -ExecutionPolicy Bypass -Command "Start-Sleep -Seconds 8; Start-Process '%FRONTEND_URL%'"
+start "REDAESTH Browser" powershell -NoProfile -ExecutionPolicy Bypass -Command "Start-Sleep -Seconds 8; Start-Process '%FRONTEND_URL%'"
 
-echo GrindHaus is starting up in separate windows.
+echo REDAESTH is starting up in separate windows.
 exit /b 0

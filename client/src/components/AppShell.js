@@ -2,12 +2,12 @@ import React from "react";
 import { AnimatePresence } from "framer-motion";
 import { Outlet, useLocation } from "react-router-dom";
 
+import BrandWordmark from "./BrandWordmark";
 import { useAuth } from "../context/AuthContext";
 import {
   AppFrame,
   AppGrid,
   Badge,
-  BrandImage,
   BrandStack,
   BrandSubtitle,
   BrandTitle,
@@ -32,7 +32,7 @@ const routeMeta = {
   },
   "/chat": {
     title: "AI Trainer",
-    subtitle: "Local C++ coaching engine. Short answers. No fluff. Report the work."
+    subtitle: "Context-aware coaching, persistent memory, and direct performance guidance."
   },
   "/community": {
     title: "Community",
@@ -55,10 +55,11 @@ const ShellSidebar = React.memo(function ShellSidebar({ onLogout }) {
   return (
     <Sidebar>
       <BrandStack>
-        <BrandImage src="/grindhaus-logo.png" alt="GrindHaus" />
         <div>
-          <BrandTitle>GrindHaus</BrandTitle>
-          <BrandSubtitle>Unified training system</BrandSubtitle>
+          <BrandTitle>
+            <BrandWordmark size="sm" />
+          </BrandTitle>
+          <BrandSubtitle>AI-powered performance ecosystem</BrandSubtitle>
         </div>
       </BrandStack>
 

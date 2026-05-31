@@ -102,9 +102,23 @@ export function getCurrentSession() {
 
 export function sendChatMessage(text) {
   return request({
-    url: "/chat/message",
+    url: "/chat",
     method: "post",
-    data: { text }
+    data: { message: text }
+  });
+}
+
+export function getCompanionNotifications() {
+  return request({
+    url: "/chat/notifications",
+    method: "get"
+  });
+}
+
+export function markCompanionNotificationsRead() {
+  return request({
+    url: "/chat/notifications/read",
+    method: "post"
   });
 }
 

@@ -6,7 +6,7 @@ function ScrollToTopOnRouteChange() {
 
   useEffect(() => {
     const frameId = window.requestAnimationFrame(() => {
-      window.__grindhausLenis?.scrollTo(0, {
+      window.__redaesthLenis?.scrollTo(0, {
         force: true,
         immediate: true,
         lock: true
