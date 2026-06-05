@@ -21,7 +21,7 @@ const Wordmark = styled(motion.span)`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: "Bricolage Grotesque", sans-serif;
+  font-family: "Bangers", "Passero One", Impact, sans-serif;
   font-weight: 700;
   line-height: 1;
   color: #f5f5f5;

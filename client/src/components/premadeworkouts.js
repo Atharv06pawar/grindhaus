@@ -94,7 +94,7 @@ const Title = styled(motion.h2)`
   font-size: 1.8rem;
   text-transform: uppercase;
   box-shadow: 0 6px 500px rgba(252, 251, 251, 0.55);
-  font-family: "Bangers", cursive;
+  font-family: "Bangers", "Passero One", Impact, sans-serif;
 `;
 
 const CardGrid = styled(motion.div)`
@@ -160,7 +160,7 @@ const Popup = styled(motion.div)`
 `;
 
 const PopupTitle = styled.h2`
-  font-family: "Bangers", cursive;
+  font-family: "Bangers", "Passero One", Impact, sans-serif;
   margin-bottom: 1rem;
   flex-shrink: 0;
 `;

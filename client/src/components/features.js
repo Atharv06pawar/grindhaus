@@ -74,7 +74,7 @@ const IconWrapper = styled.div`
 `;
 
 const Title = styled.h3`
-  font-family: "Bangers", cursive;
+  font-family: "Bangers", "Passero One", Impact, sans-serif;
   font-size: 1.8rem;
   margin-bottom: 1rem;
   letter-spacing: 1px;
@@ -84,7 +84,7 @@ const Description = styled.p`
   font-size: 1rem;
   line-height: 1.6;
   color: #cccccc;
-  font-family: "Bangers", cursive;
+  font-family: "Bangers", "Passero One", Impact, sans-serif;
 `;
 
 /* Single Card Observer Hook */

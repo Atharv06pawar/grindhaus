@@ -19,7 +19,6 @@ const CommunityWrap = styled.section`
     linear-gradient(180deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.86)),
     #111;
   color: white;
-  font-family: "Bricolage Grotesque", sans-serif;
 `;
 
 const Inner = styled.div`
@@ -40,6 +39,7 @@ const Panel = styled.div`
 
 const Title = styled.h1`
   margin: 0;
+  font-family: "Bangers", "Passero One", Impact, sans-serif;
   font-size: 2rem;
   letter-spacing: 0;
 `;

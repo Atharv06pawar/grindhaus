@@ -32,7 +32,7 @@ const Section = styled.section`
 const QuoteWrapper = styled.div`
   display: inline-block;
   margin-bottom: 2rem;
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Bangers', 'Passero One', Impact, sans-serif;
   font-weight: 600;
   font-size: 65px;
   line-height: 75px;

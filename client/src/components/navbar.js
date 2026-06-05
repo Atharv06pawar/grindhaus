@@ -23,7 +23,6 @@ const Nav = styled.nav`
 
   padding: 0.9rem 1.5rem;
 
-  font-family: "Bricolage Grotesque", sans-serif;
 `;
 
 /* ===== GLASS TAB BASE ===== */

@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import "@fontsource/passero-one";
 
 import protein from "../assets/nutrition/protein.png";
 import carbs from "../assets/nutrition/carbs.png";
@@ -57,7 +56,7 @@ const Title = styled.h2`
   background: black;
   width: 100%;
   color: white;
-  font-family: "Passero One", cursive;
+  font-family: "Bangers", "Passero One", Impact, sans-serif;
   font-size: 2.5rem;
   padding: 1.5rem 2rem;
   margin-bottom: 2rem;

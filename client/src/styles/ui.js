@@ -55,7 +55,7 @@ export const LoaderPulse = styled.div`
 `;
 
 export const LoaderLogo = styled.span`
-  font-family: "Bricolage Grotesque", sans-serif;
+  font-family: "Bangers", "Passero One", Impact, sans-serif;
   font-size: 1.05rem;
   font-weight: 700;
   letter-spacing: 0.26em;
@@ -222,6 +222,7 @@ export const TopBar = styled.header`
 
 export const PageTitle = styled.h1`
   margin: 0;
+  font-family: "Bangers", "Passero One", Impact, sans-serif;
   font-size: clamp(1.8rem, 2vw, 2.5rem);
   letter-spacing: -0.05em;
 `;
@@ -275,6 +276,7 @@ export const PanelHeader = styled.div`
 
 export const SectionTitle = styled.h2`
   margin: 0;
+  font-family: "Bangers", "Passero One", Impact, sans-serif;
   font-size: 1.2rem;
   letter-spacing: -0.04em;
 `;

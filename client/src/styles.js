@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  font-family: "Bricolage Grotesque", sans-serif;
+  font-family: Arial, sans-serif;
   width: 100%;
   margin: 0 auto;
   header {

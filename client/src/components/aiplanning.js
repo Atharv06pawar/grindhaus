@@ -70,7 +70,7 @@ const Section = styled(motion.section)`
 `;
 
 const Title = styled(motion.h2)`
-  font-family: "Bangers", cursive;
+  font-family: "Bangers", "Passero One", Impact, sans-serif;
   font-size: 3rem;
   color: white;
   margin-bottom: 0.1rem;

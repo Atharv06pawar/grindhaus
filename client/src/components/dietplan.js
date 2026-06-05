@@ -71,7 +71,7 @@ const Title = styled(motion.h2)`
   background: white;
   width: 100%;
   color: black;
-  font-family: "Passero One", cursive;
+  font-family: "Bangers", "Passero One", Impact, sans-serif;
   font-size: 2rem;
   padding: 1.5rem 2rem;
   margin-bottom: 2rem;

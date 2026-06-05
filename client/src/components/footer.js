@@ -21,7 +21,6 @@ const FooterContainer = styled.footer`
   background: #0b0b0b;
   color: #f5f5f5;
   padding: clamp(3rem, 7vw, 5rem) 1.5rem;
-  font-family: "Bricolage Grotesque", sans-serif;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   opacity: ${({ $visible }) => ($visible ? 1 : 0)};
   animation: ${({ $visible }) => ($visible ? fadeUp : "none")} 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;

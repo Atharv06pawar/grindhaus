@@ -140,7 +140,7 @@ const Header = styled.div`
   }
 
   h2 {
-    font-family: "Passero One", cursive;
+    font-family: "Bangers", "Passero One", Impact, sans-serif;
     font-size: 2rem;
     margin: 0;
   }

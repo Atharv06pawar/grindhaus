@@ -71,7 +71,7 @@ const LogoStage = styled.div`
   height: clamp(210px, 26vw, 320px);
   display: grid;
   place-items: center;
-  font-family: "Bricolage Grotesque", sans-serif;
+  font-family: "Bangers", "Passero One", Impact, sans-serif;
   color: #f5f5f5;
 `;
 

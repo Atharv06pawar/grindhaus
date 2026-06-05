@@ -37,7 +37,7 @@ const Ribbon = styled.section`
 
 const LeftText = styled.div`
   flex: 1;
-  font-family: 'Bangers', cursive;
+  font-family: 'Bangers', 'Passero One', Impact, sans-serif;
   font-size: 52px;
   font-weight: 400;
   line-height: 1.3;
@@ -51,7 +51,7 @@ const LeftText = styled.div`
 
 const RightText = styled.div`
   flex: 1;
-  font-family: 'Bangers', cursive;
+  font-family: 'Bangers', 'Passero One', Impact, sans-serif;
   font-size: 22px;
   font-weight: 400;
   line-height: 1.5;

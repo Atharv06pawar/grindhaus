@@ -66,7 +66,7 @@ const Content = styled(motion.div)`
   max-width: 700px;
 
   h2 {
-    font-family: "Passero One", cursive;
+    font-family: "Bangers", "Passero One", Impact, sans-serif;
     font-size: 2.5rem;
     margin-bottom: 1rem;
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
