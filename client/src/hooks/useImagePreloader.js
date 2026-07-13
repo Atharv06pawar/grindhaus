@@ -53,7 +53,7 @@ export default function useImagePreloader(imageUrls = []) {
       isMounted = false;
       clearTimeout(timeoutId);
     };
-  }, [JSON.stringify(imageUrls)]);
+  }, [imageUrls]);
 
   return { imagesPreloaded };
 }
