@@ -115,7 +115,7 @@ const Footer = () => {
           <FooterLink to="/">Vision</FooterLink>
           <FooterLink to="/technique">Technology</FooterLink>
           <FooterLink to="/community">Community</FooterLink>
-          <FooterLink as="a" href="mailto:hello@redaesth.ai">Contact</FooterLink>
+          <FooterLink as="a" href="mailto:redaesth.team@gmail.com">Contact</FooterLink>
         </FooterNav>
 
         <FooterDivider />

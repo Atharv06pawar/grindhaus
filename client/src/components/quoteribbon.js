@@ -51,7 +51,6 @@ const LeftText = styled.div`
 
 const RightText = styled.div`
   flex: 1;
-  font-family: 'Bangers', 'Passero One', Impact, sans-serif;
   font-size: 22px;
   font-weight: 400;
   line-height: 1.5;

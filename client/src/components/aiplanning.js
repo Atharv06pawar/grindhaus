@@ -91,7 +91,6 @@ const Title = styled(motion.h2)`
 `;
 
 const Subtitle = styled(motion.p)`
-  font-family: "Open Sans", sans-serif;
   font-size: 1.2rem;
   color: white;
   margin-bottom: 0.5rem;

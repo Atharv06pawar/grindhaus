@@ -84,7 +84,6 @@ const Description = styled.p`
   font-size: 1rem;
   line-height: 1.6;
   color: #cccccc;
-  font-family: "Bangers", "Passero One", Impact, sans-serif;
 `;
 
 /* Single Card Observer Hook */

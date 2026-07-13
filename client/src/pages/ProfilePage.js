@@ -144,6 +144,21 @@ function ProfilePage() {
           </Field>
         </FormGrid>
       </Panel>
+
+      <Panel>
+        <PanelHeader>
+          <div>
+            <SectionTitle>Support the Developer</SectionTitle>
+            <SectionText>RedAesth is built by a solo developer and remains completely free with no ads. If you find value in the platform, consider supporting its development.</SectionText>
+          </div>
+        </PanelHeader>
+
+        <ButtonRow>
+          <PrimaryButton as="a" href="https://buymeacoffee.com/redaesth" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "none" }}>
+            ☕ Buy me a coffee
+          </PrimaryButton>
+        </ButtonRow>
+      </Panel>
       </ContentWrap>
     </AppFrame>
   );

@@ -26,34 +26,6 @@ export const LoaderOverlay = styled.div`
     linear-gradient(180deg, #090909 0%, #050505 100%);
 `;
 
-export const LoaderPulse = styled.div`
-  min-width: 172px;
-  min-height: 72px;
-  padding: 18px 24px;
-  display: grid;
-  place-items: center;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
-  animation: loaderBreath 1.8s ease-in-out infinite;
-
-  @keyframes loaderBreath {
-    0% {
-      transform: scale(0.92);
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
-    }
-    50% {
-      transform: scale(1);
-      box-shadow: 0 20px 52px rgba(255, 69, 58, 0.22);
-    }
-    100% {
-      transform: scale(0.92);
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
-    }
-  }
-`;
-
 export const LoaderLogo = styled.span`
   font-family: "Bangers", "Passero One", Impact, sans-serif;
   font-size: 1.05rem;

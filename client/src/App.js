@@ -1,6 +1,6 @@
 import React from "react";
 import { AnimatePresence } from "framer-motion";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 
 import AppLoaderWrapper from "./components/AppLoaderWrapper";
 import Footer from "./components/footer.js";
@@ -21,6 +21,8 @@ import ProfilePage from "./pages/ProfilePage";
 import { useAuth } from "./context/AuthContext";
 import useLenis from "./hooks/useLenis";
 import useRouteTransition from "./hooks/useRouteTransition";
+import useImagePreloader from "./hooks/useImagePreloader";
+import { getCriticalAssetsForRoute } from "./config/criticalAssets";
 import { Container } from "./styles.js";
 
 function LandingRoute() {
@@ -38,16 +40,32 @@ function App() {
   const { displayLocation, isRouteTransitioning } = useRouteTransition(lenisRef);
   const routeKey = `${displayLocation.pathname}${displayLocation.search}${displayLocation.hash}`;
 
+  const location = useLocation();
+  const criticalAssets = getCriticalAssetsForRoute(location.pathname);
+  const { imagesPreloaded } = useImagePreloader(criticalAssets);
+
+  // Keep track of initial boot to prevent GlobalLoader from showing alongside StartupLoader
+  const isInitialBoot = React.useRef(true);
+  React.useEffect(() => {
+    isInitialBoot.current = false;
+  }, []);
+
+  const isTransitioningOrLoading = isRouteTransitioning || (displayLocation.pathname === location.pathname && !imagesPreloaded);
+  const showGlobalLoader = !isInitialBoot.current && isTransitioningOrLoading;
+
   return (
-    <AppLoaderWrapper>
+    <AppLoaderWrapper isReady={imagesPreloaded}>
       <Container>
         <Header />
 
         <AnimatePresence initial={false}>
-          {isRouteTransitioning ? <GlobalLoader key="route-loader" label="Loading REDAESTH page" /> : null}
+          {showGlobalLoader ? (
+            <GlobalLoader key="route-loader" label="Loading REDAESTH page" />
+          ) : null}
         </AnimatePresence>
 
         <PageTransition key={routeKey}>
+
           <Routes location={displayLocation}>
             <Route path="/" element={<LandingRoute />} />
             <Route path="/workout" element={<Workout />} />
